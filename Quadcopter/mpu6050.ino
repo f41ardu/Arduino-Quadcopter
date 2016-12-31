@@ -108,6 +108,9 @@ void mpu_update() {
     // calculate YAWPITCHROLL
     mpu.dmpGetGravity(&gravity, &q);
     mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
+    // from Ben's IMU code
+    // print gyroscope values from fifoBuffer
+    // ypr[0] = ((fifoBuffer[24] << 8) + fifoBuffer[25]);
 /* 
     Serial.print("ypr\t");
     Serial.print(ypr[0] * 180 / M_PI);

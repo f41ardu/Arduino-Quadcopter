@@ -67,7 +67,7 @@ unsigned long  lastUpdate;
 void setup()
 {
 #ifdef DEBUG_OUTPUT
-  Serial.begin(115200);
+  Serial.begin(38400);
   while (!Serial);
   Serial.println("Debug Output ON");
 #endif
