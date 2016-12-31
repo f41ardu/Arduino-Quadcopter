@@ -9,9 +9,9 @@ void debug_process(){
   Serial.print(F("Y:"));
   Serial.print((float)(angleY));
   Serial.print('\t');
-  //Serial.print(F("Z:"));
-  //Serial.print((float)(angleZ));
-  //Serial.print('\t');
+  Serial.print(F("Z:"));
+  Serial.print((float)(angleZ));
+  Serial.print('\t');
 #endif
 
 #ifdef DEBUG_RX
@@ -25,9 +25,9 @@ void debug_process(){
   Serial.print(F("RX_Throttle:"));
   Serial.print(rx_values[2]);
   Serial.print('\t');
-  //Serial.print(F("RX_Yaw:"));
-  //Serial.print(rx_values[3]);
-  //Serial.print('\t');   
+  Serial.print(F("RX_Yaw:"));
+  Serial.print(rx_values[3]);
+  Serial.print('\t');   
 #endif
 
 #ifdef DEBUG_PID
@@ -41,11 +41,11 @@ void debug_process(){
   Serial.print(pid_pitch_setpoint);Serial.print(',');
   Serial.print(pid_pitch_out);
   Serial.print('\t');
-  //Serial.print(F("PID_Y:"));
-  //Serial.print(pid_yaw_in);Serial.print(',');
-  //Serial.print(pid_yaw_setpoint);Serial.print(',');
-  //Serial.print(pid_yaw_out);
-  //Serial.print('\t');
+  Serial.print(F("PID_Y:"));
+  Serial.print(pid_yaw_in);Serial.print(',');
+  Serial.print(pid_yaw_setpoint);Serial.print(',');
+  Serial.print(pid_yaw_out);
+  Serial.print('\t');
 #endif
 
 #ifdef DEBUG_MOTORS
@@ -66,7 +66,7 @@ void debug_process(){
 
 #ifdef DEBUG_LOOP_TIME
   Serial.print('\t');
-  unsigned long elapsed_time = micros() - prev_time;
+  unsigned long elapsed_time = micros() - lastUpdate;
   Serial.print(F("Time:"));
   Serial.print((float)elapsed_time/1000);
   Serial.print(F("ms"));

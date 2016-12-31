@@ -1,3 +1,6 @@
+// https://oscarliang.com/quadcopter-pid-explained-tuning/
+
+
 
 PID roll_controller(&pid_roll_in,   &pid_roll_out,  &pid_roll_setpoint,  5.0, 0.0, 0.0, REVERSE);
 PID pitch_controller(&pid_pitch_in, &pid_pitch_out, &pid_pitch_setpoint, 5.0, 0.0, 0.0, REVERSE);

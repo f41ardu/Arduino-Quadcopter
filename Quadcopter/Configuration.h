@@ -45,8 +45,8 @@
 #define YAW_WMAX  30
 
 //-------IMU Config-----------
-#define ADDR_SLAVE_I2C 2
-#define PACKET_SIZE 12
+//#define ADDR_SLAVE_I2C 0x68
+//#define PACKET_SIZE 42
 
 //-------Debug Config---------
 #define DEBUG_OUTPUT
@@ -75,6 +75,9 @@
 #define PIN_MOTOR1  9
 #define PIN_MOTOR2  10
 #define PIN_MOTOR3  11
+
+//-------MPU6050 PIN-------
+#define INTERRUPT_PIN 12  // use pin 2 on Arduino Uno & most boards
 
 //-------LED PINS-------------
 #define PIN_LED 13
