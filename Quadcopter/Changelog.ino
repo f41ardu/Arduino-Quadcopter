@@ -4,4 +4,5 @@
  *  Arduino base installation. Arduino IDE is 1.6.13 
  *  
  *  Use YAWPITCHROLL calculation from MPU6050_6Axis_MotionApps20.h library
+ *  Output of IMU is now in degres according the original IMU from Ben. 
  */

@@ -114,9 +114,29 @@ void mpu_update() {
     Serial.print(ypr[1] * 180 / M_PI);
     Serial.print("\t");
     Serial.println(ypr[2] * 180 / M_PI);
-    angleZ = ypr[0];
-    angleY = ypr[1];
-    angleX = ypr[2];
+    angleZ = ypr[0] * 180 / M_PI;
+    angleY = ypr[1] * 180 / M_PI;
+    angleX = ypr[2] * 180 / M_PI;
+
+    /*
+      Angles in the original code from Ben are in degree.
+      He use YAW and ROLL from Eulre angels and YAW direct from GYRO??? 
+      What does that mean? 
+      // Output Euler Angles
+      float euler_x = atan2((2 * q_y * q_z) - (2 * q_w * q_x), (2 * q_w * q_w) + (2 * q_z * q_z) - 1); // phi
+      float euler_y = -asin((2 * q_x * q_z) + (2 * q_w * q_y));                                        // theta
+      //  float euler_z = atan2((2 * q_x * q_y) - (2 * q_w * q_z), (2 * q_w * q_w) + (2 * q_x * q_x) - 1); // psi
+      euler_x = euler_x * 180/M_PI; // angle in degrees -180 to +180
+      euler_y = euler_y * 180/M_PI; // angle in degrees -180 to +180
+      //  euler_z = euler_z * 180/M_PI; // angle in degrees -180 to +180
+      volatile byte* Rol_Ptr = (byte*) &euler_x;
+      volatile byte* Pit_Ptr = (byte*) &euler_y;
+      //  volatile byte* Yaw_Ptr = (byte*) &euler_z;
+
+      // print gyroscope values from fifoBuffer
+      float GyroZ = ((fifoBuffer[24] << 8) + fifoBuffer[25]);
+      volatile byte* Yaw_Ptr = (byte*) &GyroZ;
+    */
 
   }
 }
