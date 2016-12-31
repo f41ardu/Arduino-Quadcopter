@@ -5,7 +5,4 @@
  *  
  *  Use YAWPITCHROLL calculation from MPU6050_6Axis_MotionApps20.h library
  *  Output of IMU is now in degres according the original IMU from Ben. 
- *  Changed YAW in mpu6050 according Ben's original IMU code. 
- *  Due to instabilities changed Serial.begin(38400) from 115200.
- *  
  */
