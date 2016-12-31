@@ -5,7 +5,7 @@
 
   Due to lack of an ARDUIMO an IMU board (GY-521) will be integrated into the main system
 */
-
+// global libs
 #include <Math.h>
 #include <PID_v1.h>
 #include <PinChangeInt.h>
@@ -20,13 +20,13 @@
 #if I2CDEV_IMPLEMENTATION == I2CDEV_ARDUINO_WIRE
 #include "Wire.h"
 #endif
-
+//local libs
 #include "Configuration.h"
+#include "LED_C.h"
 
 // MPU Definitions
 // class default I2C address is 0x68
 MPU6050 mpu;
-
 // MPU control/status vars
 bool dmpReady = false;  // set true if DMP init was successful
 volatile bool mpuInterrupt = false;     // indicates whether MPU interrupt pin has gone high
@@ -35,6 +35,8 @@ uint8_t devStatus;      // return status after each device operation (0 = succes
 uint16_t packetSize;    // expected DMP packet size (default is 42 bytes)
 uint16_t fifoCount;     // count of all bytes currently in FIFO
 uint8_t fifoBuffer[64]; // FIFO storage buffer
+// LEDs
+LED heartbeat(HEARTBEAT_LED,500,500); 
 
 // Angles
 //    Roll,   Pitch,  Roll
@@ -73,10 +75,10 @@ void setup()
 #endif
   mpu_init();
   motors_initialize();
-  leds_initialize();
   rx_initialize();
   pid_initialize();
   motors_arm();
+  
 
   //wait for IMU YAW  to settle before beginning??? ~20s
 }
@@ -85,7 +87,7 @@ void loop()
 {
   if (!dmpReady) return;
 
-  heartbeat();
+  heartbeat.update();
   control_update();
   mpu_update();
 

@@ -80,5 +80,5 @@
 #define INTERRUPT_PIN 12  // use pin 2 on Arduino Uno & most boards
 
 //-------LED PINS-------------
-#define PIN_LED 13
+#define HEARTBEAT_LED 13
 
