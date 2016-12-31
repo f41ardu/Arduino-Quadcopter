@@ -8,5 +8,6 @@
  *  Changed YAW in mpu6050 according Ben's original IMU code. 
  *  Due to instabilities changed Serial.begin(38400) from 115200.
  *  Add LED_C class and replaced heartbeat. 
+ *  Disabled Wait for input in MPU6050 init. 
  *  
  */
