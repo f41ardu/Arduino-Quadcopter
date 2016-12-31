@@ -108,16 +108,17 @@ void mpu_update() {
     // calculate YAWPITCHROLL
     mpu.dmpGetGravity(&gravity, &q);
     mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
+/* 
     Serial.print("ypr\t");
     Serial.print(ypr[0] * 180 / M_PI);
     Serial.print("\t");
     Serial.print(ypr[1] * 180 / M_PI);
     Serial.print("\t");
     Serial.println(ypr[2] * 180 / M_PI);
+*/ 
     angleZ = ypr[0] * 180 / M_PI;
     angleY = ypr[1] * 180 / M_PI;
     angleX = ypr[2] * 180 / M_PI;
-
     /*
       Angles in the original code from Ben are in degree.
       He use YAW and ROLL from Eulre angels and YAW direct from GYRO??? 
