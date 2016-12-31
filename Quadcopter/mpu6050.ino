@@ -1,11 +1,18 @@
-// To support MPU6050 on Arduino some rework is required
+// To support a direkt connected MPU6050 on Arduino some rework is still required
+// This code is primarily based on the I2C device class (I2Cdev) demonstration Arduino sketch for MPU6050 class using DMP (MotionApps v2.0)
+// 6/21/2012 by Jeff Rowberg <jeff@rowberg.net>
 /*  Hardware setup:
   MPU6050 Breakout --------- Arduino
   3.3V --------------------- 3.3V
   SDA ----------------------- A4
   SCL ----------------------- A5
   GND ---------------------- GND
+
+
 */
+// I2Cdev and MPU6050 must be installed as libraries, or else the .cpp/.h files
+// for both classes must be in the include path of your project
+
 
 void mpu_init() {
   // join I2C bus (I2Cdev library doesn't do this automatically)
@@ -65,6 +72,8 @@ void mpu_init() {
 }
 
 void mpu_update() {
+
+
   // wait for MPU interrupt or extra packet(s) available
   while (!mpuInterrupt && fifoCount < packetSize) {
     mpuInterrupt = true;
@@ -95,38 +104,19 @@ void mpu_update() {
     fifoCount -= packetSize;
 
     // get quaternion values in InvenSense Teapot format and store them in q
-    /*  teapotPacket[2] = fifoBuffer[0];
-        teapotPacket[3] = fifoBuffer[1];
-        teapotPacket[4] = fifoBuffer[4];
-        teapotPacket[5] = fifoBuffer[5];
-        teapotPacket[6] = fifoBuffer[8];
-        teapotPacket[7] = fifoBuffer[9];
-        teapotPacket[8] = fifoBuffer[12];
-        teapotPacket[9] = fifoBuffer[13];
-        Serial.write(teapotPacket, 14);
-    */
-    q[0] = ((fifoBuffer[0] << 8) | fifoBuffer[1]) / 16384.0f;
-    q[1] = ((fifoBuffer[4] << 8) | fifoBuffer[5]) / 16384.0f;
-    q[2] = ((fifoBuffer[8] << 8) | fifoBuffer[9]) / 16384.0f;
-    q[3] = ((fifoBuffer[12] << 8) | fifoBuffer[13]) / 16384.0f;
-    for (int i = 0; i < 4; i++) if (q[i] >= 2) q[i] = -4 + q[i];
-    // Quaternion to Euler
-    angleX = atan2(2 * q[1] * q[2] - 2 * q[0] * q[3], 2 * q[0] * q[0] + 2 * q[1] * q[1] - 1); // psi - ROLL
-    angleY = -asin(2 * q[1] * q[3] + 2 * q[0] * q[2]); // theta - PITCH
-    angleZ = atan2(2 * q[2] * q[3] - 2 * q[0] * q[1], 2 * q[0] * q[0] + 2 * q[3] * q[3] - 1); // phi - YAW
-    /*
-         #ifdef OUTPUT_READABLE_YAWPITCHROLL
-                // display Euler angles in degrees
-                mpu.dmpGetQuaternion(&q, fifoBuffer);
-                mpu.dmpGetGravity(&gravity, &q);
-                mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
-                Serial.print("ypr\t");
-                Serial.print(ypr[0] * 180/M_PI);
-                Serial.print("\t");
-                Serial.print(ypr[1] * 180/M_PI);
-                Serial.print("\t");
-                Serial.println(ypr[2] * 180/M_PI);
-    */
+    mpu.dmpGetQuaternion(&q, fifoBuffer);
+    // calculate YAWPITCHROLL
+    mpu.dmpGetGravity(&gravity, &q);
+    mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
+    Serial.print("ypr\t");
+    Serial.print(ypr[0] * 180 / M_PI);
+    Serial.print("\t");
+    Serial.print(ypr[1] * 180 / M_PI);
+    Serial.print("\t");
+    Serial.println(ypr[2] * 180 / M_PI);
+    angleZ = ypr[0];
+    angleY = ypr[1];
+    angleX = ypr[2];
 
   }
 }
