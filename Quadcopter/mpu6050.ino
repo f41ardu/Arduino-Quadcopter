@@ -111,21 +111,21 @@ void mpu_update() {
     // from Ben's IMU code
     // print gyroscope values from fifoBuffer
     // ypr[0] = ((fifoBuffer[24] << 8) + fifoBuffer[25]);
-/* 
-    Serial.print("ypr\t");
-    Serial.print(ypr[0] * 180 / M_PI);
-    Serial.print("\t");
-    Serial.print(ypr[1] * 180 / M_PI);
-    Serial.print("\t");
-    Serial.println(ypr[2] * 180 / M_PI);
-*/ 
+    /*
+        Serial.print("ypr\t");
+        Serial.print(ypr[0] * 180 / M_PI);
+        Serial.print("\t");
+        Serial.print(ypr[1] * 180 / M_PI);
+        Serial.print("\t");
+        Serial.println(ypr[2] * 180 / M_PI);
+    */
     angleZ = ypr[0] * 180 / M_PI;
     angleY = ypr[1] * 180 / M_PI;
     angleX = ypr[2] * 180 / M_PI;
     /*
       Angles in the original code from Ben are in degree.
-      He use YAW and ROLL from Eulre angels and YAW direct from GYRO??? 
-      What does that mean? 
+      He use YAW and ROLL from Eulre angels and YAW direct from GYRO???
+      What does that mean?
       // Output Euler Angles
       float euler_x = atan2((2 * q_y * q_z) - (2 * q_w * q_x), (2 * q_w * q_w) + (2 * q_z * q_z) - 1); // phi
       float euler_y = -asin((2 * q_x * q_z) + (2 * q_w * q_y));                                        // theta
