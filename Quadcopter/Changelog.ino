@@ -10,4 +10,9 @@
  *  Add LED_C class and replaced heartbeat. 
  *  Disabled Wait for input in MPU6050 init. 
  *  
+ *  2017-01-01 f41ardu - remove Interrupt.ino, placed code (Inerrupt detection), 
+ *  variables and related definitions private to MPU6050 into MPU6050.ino    
+ *  May rebuild MPU6050.ino as class library? 
+ *  Versioning (see versionNumber)
+ *  
  */

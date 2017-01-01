@@ -8,12 +8,59 @@
   SCL ----------------------- A5
   GND ---------------------- GND
 
+  See comments below 
 
 */
+#include "I2Cdev.h"
+
+#include <MPU6050_6Axis_MotionApps20.h>
+
+// Arduino Wire library is required if I2Cdev I2CDEV_ARDUINO_WIRE implementation
+// is used in I2Cdev.h
+#if I2CDEV_IMPLEMENTATION == I2CDEV_ARDUINO_WIRE
+#include "Wire.h"
+#endif
 // I2Cdev and MPU6050 must be installed as libraries, or else the .cpp/.h files
 // for both classes must be in the include path of your project
+/*
+ * This variables are private to MPU6050.ini 
+ * angleX,angleY,angleZ are global variables used in the main code 
+ */
+// MPU Definitions
+// class default I2C address is 0x68
+MPU6050 mpu;
+// MPU control/status vars
+bool dmpReady = false;  // set true if DMP init was successful
+volatile bool mpuInterrupt = false;     // indicates whether MPU interrupt pin has gone high
+uint8_t mpuIntStatus;   // holds actual interrupt status byte from MPU
+uint8_t devStatus;      // return status after each device operation (0 = success, !0 = error)
+uint16_t packetSize;    // expected DMP packet size (default is 42 bytes)
+uint16_t fifoCount;     // count of all bytes currently in FIFO
+uint8_t fifoBuffer[64]; // FIFO storage buffer
+
+// Quaternions and parameters for 6 DoF sensor fusion calculations
+Quaternion q;           // [w, x, y, z]         quaternion container
+VectorFloat gravity;    // [x, y, z]            gravity vector
+float ypr[3];           // [yaw, pitch, roll]   yaw/pitch/roll container and gravity vector
 
 
+// code begins here
+/*  
+ *   Three functions: 
+ *   dmpDataReady (could be solved using an _state variable)
+ *   mpu_init 
+ *   mpu_update (called coniniously in the mainloop 
+ */
+// ================================================================
+// ===               INTERRUPT DETECTION ROUTINE                ===
+// ================================================================
+// Needed by MPU6050 
+void dmpDataReady() {
+    mpuInterrupt = true;
+}
+// ================================================================
+// ===               MPU INIT ROUTINE                           ===
+// ================================================================
 void mpu_init() {
   // join I2C bus (I2Cdev library doesn't do this automatically)
 #if I2CDEV_IMPLEMENTATION == I2CDEV_ARDUINO_WIRE
@@ -73,10 +120,10 @@ void mpu_init() {
     Serial.println(F(")"));
   }
 }
-
+// ================================================================
+// ===               MPU Update ROUTINE                         ===
+// ================================================================
 void mpu_update() {
-
-
   // wait for MPU interrupt or extra packet(s) available
   while (!mpuInterrupt && fifoCount < packetSize) {
     mpuInterrupt = true;
@@ -147,4 +194,5 @@ void mpu_update() {
 
   }
 }
+
 
