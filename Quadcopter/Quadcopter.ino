@@ -19,20 +19,18 @@
 
 //local libs
 #include "Configuration.h"
-#include "LED_C.h"
+#include "pinclass.h"
 
-// Version Number 
-char versionNumber[] = "0.1.1"; 
-char releaseName[] = "Initial Build";
+// Release and Build 
+char ReleaseNumber[] = "0.1.2"; 
+char build[] = "build_930322";
 
 // LEDs
-LED heartbeat(HEARTBEAT_LED,500,500); 
+PinClass heartbeat(HEARTBEAT_LED,500,500); 
 
 // Angles
 //    Roll,   Pitch,  Roll
-float angleX, angleY, angleZ, temp;
-float ax, ay, az;       // Stores the real accel value in g's
-float gx, gy, gz;       // Stores the real gyro value in degrees per seconds
+float angleX, angleY, angleZ; 
 
 // RX Signals
 int throttle = THROTTLE_RMIN;
@@ -66,7 +64,7 @@ void setup()
 
 void loop()
 {
-  heartbeat.update();
+  heartbeat.flash();
   control_update();
   mpu_update();
 #ifdef DEBUG_OUTPUT
