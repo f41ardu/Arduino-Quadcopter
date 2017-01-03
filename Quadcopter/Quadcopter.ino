@@ -7,7 +7,7 @@
  * (Due to lack of an ARDUIMO an IMU board (GY-521) will be integrated into the main system) 
  * Introducing version number
  * 
- * Version 0.1.1
+ * For Version number see ReleaseNumber[] below
  */
 
 // global libs
@@ -18,11 +18,13 @@
 
 
 //local libs
-#include "Configuration.h"
 #include "pinclass.h"
+// Configuration file
+#include "Configuration.h"
 
 // Release and Build 
-char ReleaseNumber[] = "0.1.2"; 
+char VersionNumber[] = 0.1.2"
+char ReleaseNumber[] = "N/A"; 
 char build[] = "build_930322";
 
 // LEDs

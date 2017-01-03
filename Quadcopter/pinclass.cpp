@@ -66,6 +66,12 @@ void PinClass::toggle()
   _status ? off() : on();
 }
 
+void PinClass::timechange(int OnTime, int OffTime) // 
+{
+  _OnTime=OnTime;
+  _OffTime=OffTime;
+}
+
 void PinClass::flash() {
   // check to see if it's time to change the state of the LED
   if ((_currentMillis - _previousMillis >= _OnTime))

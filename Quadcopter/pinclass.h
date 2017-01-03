@@ -24,8 +24,9 @@ class PinClass
     void off();                       // einen PIN ausschalten
     void blink(int intervall);        // einen PIN für die länge von intervall (ms) ein- und ausschalten
     void fade(int value);             // eine Spannung (0 .. 5Volt/255) am PIN ausgeben
-    void toggle();                    //
-    void flash();                     // 
+    void timechange(int OnTime, int OffTime); 
+    void toggle();                    // PIN Zustand umschalten (ON/OFF, OFF/ON) 
+    void flash();                     // PIN ein und auschalten (OnTime, OffTime) 
 
   private:                            // privat
      bool _status; 
