@@ -1,6 +1,8 @@
 /* 
  *  Changelog (in reverse order, current first)
  *  
+ *  2017-01-03 f41ardu - replaced angelX,Y,Z using an array ypr to store YAW,PITCH and ROLL angels.
+ *  
  *  2017-01-03 f41ardu - add timechange to pinchange lib, add Versionnumber, 
  *  Release candidate  
  *  

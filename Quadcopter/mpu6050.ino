@@ -41,8 +41,7 @@ uint8_t fifoBuffer[64]; // FIFO storage buffer
 // Quaternions and parameters for 6 DoF sensor fusion calculations
 Quaternion q;           // [w, x, y, z]         quaternion container
 VectorFloat gravity;    // [x, y, z]            gravity vector
-float ypr[3];           // [yaw, pitch, roll]   yaw/pitch/roll container and gravity vector
-
+// float ypr[3]; // [yaw, pitch, roll]   yaw/pitch/roll container and gravity vector
 
 // code begins here
 /*  
@@ -169,9 +168,10 @@ void mpu_update() {
         Serial.print("\t");
         Serial.println(ypr[2] * 180 / M_PI);
     */
-    angleZ = ypr[0] * 180 / M_PI;
-    angleY = ypr[1] * 180 / M_PI;
-    angleX = ypr[2] * 180 / M_PI;
+    // YAW,PITCH,ROLL in degress
+    ypr[0]=  ypr[0] * 180 / M_PI; // YAW
+    ypr[1] = ypr[1] * 180 / M_PI; // PITCH
+    ypr[2] = ypr[2] * 180 / M_PI; // ROLL
     /*
       Angles in the original code from Ben are in degree.
       He use YAW and ROLL from Eulre angels and YAW direct from GYRO???

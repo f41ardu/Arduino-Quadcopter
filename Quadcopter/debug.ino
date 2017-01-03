@@ -4,13 +4,13 @@ void debug_process(){
 
 #ifdef DEBUG_ANGLES
   Serial.print(F("X:"));
-  Serial.print((float)(angleX));
+  Serial.print((float)(ypr[2]));
   Serial.print('\t');
   Serial.print(F("Y:"));
-  Serial.print((float)(angleY));
+  Serial.print((float)(ypr[1]));
   Serial.print('\t');
   Serial.print(F("Z:"));
-  Serial.print((float)(angleZ));
+  Serial.print((float)(ypr[0]));
   Serial.print('\t');
 #endif
 

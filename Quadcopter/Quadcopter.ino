@@ -23,16 +23,15 @@
 #include "Configuration.h"
 
 // Release and Build 
-char VersionNumber[] = 0.1.2"
-char ReleaseNumber[] = "N/A"; 
+char VersionNumber[] = "0.1.3";
+char ReleaseNumber[] = "preRelease"; 
 char build[] = "build_930322";
 
 // LEDs
 PinClass heartbeat(HEARTBEAT_LED,500,500); 
 
 // Angles
-//    Roll,   Pitch,  Roll
-float angleX, angleY, angleZ; 
+float ypr[3]; // [yaw, pitch, roll]   yaw/pitch/roll container and gravity vector
 
 // RX Signals
 int throttle = THROTTLE_RMIN;

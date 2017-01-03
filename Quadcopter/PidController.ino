@@ -20,9 +20,13 @@ void pid_initialize() {
 }
 
 void pid_update(){
-  pid_roll_in = angleX;
-  pid_pitch_in = angleY;
-  pid_yaw_in = angleZ; 
+/*  angleZ = ypr[0] * 180 / M_PI; // YAW
+    angleY = ypr[1] * 180 / M_PI; // PITCH
+    angleX = ypr[2] * 180 / M_PI; // ROLL
+ */   
+  pid_roll_in = ypr[2];   // angleX
+  pid_pitch_in = ypr[1];  // angleY
+  pid_yaw_in = ypr[0];    // angleZ 
 }
 
 void pid_compute() {
