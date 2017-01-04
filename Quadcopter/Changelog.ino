@@ -1,6 +1,12 @@
 /* 
  *  Changelog (in reverse order, current first)
  *  
+ *  2017-01-04 f41ardu - add ypr output for seriell plotter 
+ *  removed INT setup MPU6050, add Quaternionen phase correction
+ *  Replaced M_PI using PI,removed math.h
+ *  Still an issue that the application stops 
+ *  Changed pins for MPU and do some rework around Receiver and interrupts
+ *  
  *  2017-01-03 f41ardu - replaced angelX,Y,Z using an array ypr to store YAW,PITCH and ROLL angels.
  *  
  *  2017-01-03 f41ardu - add timechange to pinchange lib, add Versionnumber, 

@@ -11,11 +11,9 @@
  */
 
 // global libs
-#include <Math.h>
 #include <PID_v1.h>
 #include <PinChangeInt.h>
 #include <Servo.h>
-
 
 //local libs
 #include "pinclass.h"
@@ -55,9 +53,9 @@ void setup()
   while (!Serial);
   Serial.println("Debug Output ON");
 #endif
+  rx_initialize();
   mpu_init();
   motors_initialize();
-  rx_initialize();
   pid_initialize();
   motors_arm();
   //wait for IMU YAW  to settle before beginning??? ~20s
@@ -66,8 +64,8 @@ void setup()
 void loop()
 {
   heartbeat.flash();
-  control_update();
   mpu_update();
+  control_update();
 #ifdef DEBUG_OUTPUT
   debug_process();
 #endif

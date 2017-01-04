@@ -73,6 +73,19 @@ void debug_process(){
   Serial.print('\t');
 #endif
 
+#ifdef DEBUG_YAWPITCHROLL 
+// YAW,PITCH,ROLL in degress
+//  ypr[0]=  ypr[0] * 180 / M_PI; // YAW
+//  ypr[1] = ypr[1] * 180 / M_PI; // PITCH
+//  ypr[2] = ypr[2] * 180 / M_PI; // ROLL 
+
+  Serial.print((float)(ypr[2])); //ROLL?
+  Serial.print(',');
+  Serial.print((float)(ypr[1])); //PITCH?
+  Serial.print(',');
+  Serial.print((float)(ypr[0])); //YAW? 
+#endif
+
   Serial.println();
 #endif
 }

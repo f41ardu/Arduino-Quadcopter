@@ -50,11 +50,12 @@
 
 //-------Debug Config---------
 #define DEBUG_OUTPUT
-#define DEBUG_ANGLES
-#define DEBUG_PID
-#define DEBUG_RX
-#define DEBUG_MOTORS
-#define DEBUG_LOOP_TIME
+// #define DEBUG_ANGLES
+// #define DEBUG_PID
+// #define DEBUG_RX
+// #define DEBUG_MOTORS
+// #define DEBUG_LOOP_TIME
+#define DEBUG_YAWPITCHROLL
 //----------------------------
 
 //-------Motor PWM Levels
@@ -65,19 +66,19 @@
 
 //-------RX PINS-------------
 #define RX_PINS_OFFSET 2
-#define PIN_RX_ROLL 2
-#define PIN_RX_PITCH 3
-#define PIN_RX_THROTTLE 4
-#define PIN_RX_YAW 5
+#define PIN_RX_ROLL 3
+#define PIN_RX_PITCH 4
+#define PIN_RX_THROTTLE 5
+#define PIN_RX_YAW 6
 
 //-------MOTOR PINS-----------
-#define PIN_MOTOR0  6
+#define PIN_MOTOR0  7
 #define PIN_MOTOR1  9
 #define PIN_MOTOR2  10
 #define PIN_MOTOR3  11
 
 //-------MPU6050 PIN-------
-#define INTERRUPT_PIN 12  // use pin 2 on Arduino Uno & most boards
+#define PIN_MPU 2  // use pin 2 on Arduino Uno & most boards
 
 //-------LED PINS-------------
 #define HEARTBEAT_LED 13

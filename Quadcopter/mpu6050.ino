@@ -8,8 +8,7 @@
   SCL ----------------------- A5
   GND ---------------------- GND
 
-  See comments below 
-
+  See comments below
 */
 #include "I2Cdev.h"
 
@@ -23,9 +22,9 @@
 // I2Cdev and MPU6050 must be installed as libraries, or else the .cpp/.h files
 // for both classes must be in the include path of your project
 /*
- * This variables are private to MPU6050.ini 
- * angleX,angleY,angleZ are global variables used in the main code 
- */
+   This variables are private to MPU6050.ini
+   angleX,angleY,angleZ are global variables used in the main code
+*/
 // MPU Definitions
 // class default I2C address is 0x68
 MPU6050 mpu;
@@ -44,18 +43,19 @@ VectorFloat gravity;    // [x, y, z]            gravity vector
 // float ypr[3]; // [yaw, pitch, roll]   yaw/pitch/roll container and gravity vector
 
 // code begins here
-/*  
- *   Three functions: 
- *   dmpDataReady (could be solved using an _state variable)
- *   mpu_init 
- *   mpu_update (called coniniously in the mainloop 
- */
+/*
+     Three functions:
+     dmpDataReady (could be solved using an _state variable)
+     mpu_init
+     mpu_update (called coniniously in the mainloop
+*/
 // ================================================================
 // ===               INTERRUPT DETECTION ROUTINE                ===
 // ================================================================
-// Needed by MPU6050 
+// Needed by MPU6050
 void dmpDataReady() {
-    mpuInterrupt = true;
+  latest_interrupted_pin = PCintPort::arduinoPin;
+  if ( latest_interrupted_pin == PIN_MPU) mpuInterrupt = true;
 }
 // ================================================================
 // ===               MPU INIT ROUTINE                           ===
@@ -69,38 +69,40 @@ void mpu_init() {
   Fastwire::setup(400, true);
 #endif
   mpu.initialize();
-  pinMode(INTERRUPT_PIN, INPUT);
+   pinMode(PIN_MPU, INPUT); // digitalWrite(PIN_MPU, HIGH);
+  // enable Arduino interrupt detection
+  
+//  attachInterrupt(PIN_MPU, &dmpDataReady, RISING);
   // verify connection
   Serial.println(F("Testing device connections..."));
   Serial.println(mpu.testConnection() ? F("MPU6050 connection successful") : F("MPU6050 connection failed"));
-/* 
-  // wait for ready
-  Serial.println(F("\nSend any character to begin DMP programming and demo: "));
-  while (Serial.available() && Serial.read()); // empty buffer
-  while (!Serial.available());                 // wait for data
-  while (Serial.available() && Serial.read()); // empty buffer again
-*/
+  /*
+    // wait for ready
+    Serial.println(F("\nSend any character to begin DMP programming and demo: "));
+    while (Serial.available() && Serial.read()); // empty buffer
+    while (!Serial.available());                 // wait for data
+    while (Serial.available() && Serial.read()); // empty buffer again
+  */
 
-  delay(5000); 
-  
+ // delay(5000);
+
   // load and configure the DMP
   Serial.println(F("Initializing DMP..."));
   devStatus = mpu.dmpInitialize();
   // supply your own gyro offsets here, scaled for min sensitivity
-  mpu.setXGyroOffset(220);
-  mpu.setYGyroOffset(76);
-  mpu.setZGyroOffset(-85);
-  mpu.setZAccelOffset(1788); // 1688 factory default for my test chip
-
+  /*
+    mpu.setXGyroOffset(1);
+    mpu.setYGyroOffset(2);
+    mpu.setZGyroOffset(2);
+    mpu.setZAccelOffset(2); // 1688 factory default for my test chip
+  */
   // make sure it worked (returns 0 if so)
   if (devStatus == 0) {
     // turn on the DMP, now that it's ready
     Serial.println(F("Enabling DMP..."));
     mpu.setDMPEnabled(true);
-
-    // enable Arduino interrupt detection
     Serial.println(F("Enabling interrupt detection (Arduino external interrupt 0)..."));
-    attachInterrupt(digitalPinToInterrupt(INTERRUPT_PIN), dmpDataReady, RISING);
+    attachInterrupt(digitalPinToInterrupt(PIN_MPU), &dmpDataReady, RISING);
     mpuIntStatus = mpu.getIntStatus();
 
     // set our DMP Ready flag so the main loop() function knows it's okay to use it
@@ -123,9 +125,12 @@ void mpu_init() {
 // ===               MPU Update ROUTINE                         ===
 // ================================================================
 void mpu_update() {
+  // if programming failed, don't try to do anything
+  if (!dmpReady) return;
+
   // wait for MPU interrupt or extra packet(s) available
   while (!mpuInterrupt && fifoCount < packetSize) {
-    mpuInterrupt = true;
+  // do nothing here
   }
   // reset interrupt flag and get INT_STATUS byte
   mpuInterrupt = false;
@@ -154,6 +159,10 @@ void mpu_update() {
 
     // get quaternion values in InvenSense Teapot format and store them in q
     mpu.dmpGetQuaternion(&q, fifoBuffer);
+    if (q.w >= 2.0f) q.w = -4.0f + q.w;
+    if (q.x >= 2.0f) q.x = -4.0f + q.x;
+    if (q.y >= 2.0f) q.y = -4.0f + q.y;
+    if (q.z >= 2.0f) q.z = -4.0f + q.z;
     // calculate YAWPITCHROLL
     mpu.dmpGetGravity(&gravity, &q);
     mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
@@ -169,9 +178,9 @@ void mpu_update() {
         Serial.println(ypr[2] * 180 / M_PI);
     */
     // YAW,PITCH,ROLL in degress
-    ypr[0]=  ypr[0] * 180 / M_PI; // YAW
-    ypr[1] = ypr[1] * 180 / M_PI; // PITCH
-    ypr[2] = ypr[2] * 180 / M_PI; // ROLL
+    ypr[0] =  ypr[0] * 180. / PI; // YAW
+    ypr[1] = ypr[1] * 180. / PI; // PITCH
+    ypr[2] = ypr[2] * 180. / PI; // ROLL
     /*
       Angles in the original code from Ben are in degree.
       He use YAW and ROLL from Eulre angels and YAW direct from GYRO???
