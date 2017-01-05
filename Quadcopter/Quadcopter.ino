@@ -21,7 +21,7 @@
 #include "Configuration.h"
 
 // Release and Build 
-char VersionNumber[] = "0.1.3";
+char VersionNumber[] = "0.2";
 char ReleaseNumber[] = "preRelease"; 
 char build[] = "build_930322";
 

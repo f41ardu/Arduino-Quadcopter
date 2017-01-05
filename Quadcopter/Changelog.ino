@@ -1,6 +1,8 @@
 /* 
  *  Changelog (in reverse order, current first)
  *  
+ *  2017-01-05 f41ardu this is a prerelease
+ *  
  *  2017-01-04 f41ardu - add ypr output for seriell plotter 
  *  removed INT setup MPU6050, add Quaternionen phase correction
  *  Replaced M_PI using PI,removed math.h
