@@ -69,10 +69,9 @@ void mpu_init() {
   Fastwire::setup(400, true);
 #endif
   mpu.initialize();
-   pinMode(PIN_MPU, INPUT); // digitalWrite(PIN_MPU, HIGH);
   // enable Arduino interrupt detection
-  
-//  attachInterrupt(PIN_MPU, &dmpDataReady, RISING);
+  pinMode(PIN_MPU, INPUT);
+  digitalWrite(PIN_MPU, HIGH); // Pullup 
   // verify connection
   Serial.println(F("Testing device connections..."));
   Serial.println(mpu.testConnection() ? F("MPU6050 connection successful") : F("MPU6050 connection failed"));
@@ -84,7 +83,7 @@ void mpu_init() {
     while (Serial.available() && Serial.read()); // empty buffer again
   */
 
- // delay(5000);
+  delay(500);
 
   // load and configure the DMP
   Serial.println(F("Initializing DMP..."));
@@ -102,7 +101,8 @@ void mpu_init() {
     Serial.println(F("Enabling DMP..."));
     mpu.setDMPEnabled(true);
     Serial.println(F("Enabling interrupt detection (Arduino external interrupt 0)..."));
-    attachInterrupt(digitalPinToInterrupt(PIN_MPU), &dmpDataReady, RISING);
+//    attachInterrupt(digitalPinToInterrupt(PIN_MPU), &dmpDataReady, RISING);
+     PCintPort::attachInterrupt(PIN_MPU, &dmpDataReady, RISING);
     mpuIntStatus = mpu.getIntStatus();
 
     // set our DMP Ready flag so the main loop() function knows it's okay to use it

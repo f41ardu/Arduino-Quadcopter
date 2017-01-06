@@ -78,7 +78,7 @@
 #define PIN_MOTOR3  11
 
 //-------MPU6050 PIN-------
-#define PIN_MPU 2  // use pin 2 on Arduino Uno & most boards
+#define PIN_MPU 12  // use pin 2 on Arduino Uno & most boards
 
 //-------LED PINS-------------
 #define HEARTBEAT_LED 13
