@@ -24,9 +24,9 @@ void pid_update(){
     angleY = ypr[1] * 180 / M_PI; // PITCH
     angleX = ypr[2] * 180 / M_PI; // ROLL
  */   
-  pid_roll_in = ypr[2];   // angleX
-  pid_pitch_in = ypr[1];  // angleY
-  pid_yaw_in = ypr[0];    // angleZ 
+  pid_roll_in = angles[2];   // angleX
+  pid_pitch_in = angles[1];  // angleY
+  pid_yaw_in = angles[0];    // angleZ 
 }
 
 void pid_compute() {

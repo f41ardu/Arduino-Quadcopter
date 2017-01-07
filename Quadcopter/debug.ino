@@ -4,13 +4,13 @@ void debug_process(){
 
 #ifdef DEBUG_ANGLES
   Serial.print(F("X:"));
-  Serial.print((float)(ypr[2]));
+  Serial.print((float)( resulting_angles[2]));
   Serial.print('\t');
   Serial.print(F("Y:"));
-  Serial.print((float)(ypr[1]));
+  Serial.print((float)( resulting_angles[1]));
   Serial.print('\t');
   Serial.print(F("Z:"));
-  Serial.print((float)(ypr[0]));
+  Serial.print((float)( resulting_angles[0]));
   Serial.print('\t');
 #endif
 
@@ -79,11 +79,11 @@ void debug_process(){
 //  ypr[1] = ypr[1] * 180 / M_PI; // PITCH
 //  ypr[2] = ypr[2] * 180 / M_PI; // ROLL 
 
-  Serial.print((float)(ypr[2])); //ROLL?
+  Serial.print((float)( resulting_angles[2])); //ROLL?
   Serial.print(',');
-  Serial.print((float)(ypr[1])); //PITCH?
+  Serial.print((float)( resulting_angles[1])); //PITCH?
   Serial.print(',');
-  Serial.print((float)(ypr[0])); //YAW? 
+  Serial.print((float)( resulting_angles[0])); //YAW? 
 #endif
 
   Serial.println();

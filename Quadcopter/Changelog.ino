@@ -1,6 +1,9 @@
 /* 
  *  Changelog (in reverse order, current first)
  *  
+ *  2017-01-08 f41ard - attempt to implement offset correction, but not working yet
+ *  Use dmpgetEuler and removed offset
+ *  
  *  2017-01-06 f41ardu - Make use of PinChangeInt in MPU6050.ino
  *  
  *  2017-01-05 f41ardu this is a prerelease

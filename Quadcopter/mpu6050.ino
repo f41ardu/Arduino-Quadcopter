@@ -61,6 +61,7 @@ void dmpDataReady() {
 // ===               MPU INIT ROUTINE                           ===
 // ================================================================
 void mpu_init() {
+  float ypr[3]; // [yaw, pitch, roll]   yaw/pitch/roll container and gravity vector
   // join I2C bus (I2Cdev library doesn't do this automatically)
 #if I2CDEV_IMPLEMENTATION == I2CDEV_ARDUINO_WIRE
   Wire.begin();
@@ -125,6 +126,8 @@ void mpu_init() {
 // ===               MPU Update ROUTINE                         ===
 // ================================================================
 void mpu_update() {
+  float ypr[3]; // [yaw, pitch, roll]   yaw/pitch/roll container and gravity vector
+  float qF[4]; 
   // if programming failed, don't try to do anything
   if (!dmpReady) return;
 
@@ -159,13 +162,22 @@ void mpu_update() {
 
     // get quaternion values in InvenSense Teapot format and store them in q
     mpu.dmpGetQuaternion(&q, fifoBuffer);
-    if (q.w >= 2.0f) q.w = -4.0f + q.w;
-    if (q.x >= 2.0f) q.x = -4.0f + q.x;
-    if (q.y >= 2.0f) q.y = -4.0f + q.y;
-    if (q.z >= 2.0f) q.z = -4.0f + q.z;
+ //   if (q.w >= 2.0f) q.w = -4.0f + q.w;
+ //   if (q.x >= 2.0f) q.x = -4.0f + q.x;
+ //   if (q.y >= 2.0f) q.y = -4.0f + q.y;
+ //   if (q.z >= 2.0f) q.z = -4.0f + q.z;
+// ---
+    qF[0]=q.w; 
+    qF[1]=q.x;
+    qF[2]=q.y;
+    qF[3]=q.z;
+//    quaternionToEuler(qF, ypr);
+    mpu.dmpGetEuler(ypr, &q);
+    /*
     // calculate YAWPITCHROLL
     mpu.dmpGetGravity(&gravity, &q);
     mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
+    */ 
     // from Ben's IMU code
     // print gyroscope values from fifoBuffer
     // ypr[0] = ((fifoBuffer[24] << 8) + fifoBuffer[25]);
@@ -178,9 +190,9 @@ void mpu_update() {
         Serial.println(ypr[2] * 180 / M_PI);
     */
     // YAW,PITCH,ROLL in degress
-    ypr[0] =  ypr[0] * 180. / PI; // YAW
-    ypr[1] = ypr[1] * 180. / PI; // PITCH
-    ypr[2] = ypr[2] * 180. / PI; // ROLL
+    angles[0] = ypr[0]; //  * 180. / PI; // YAW
+    angles[1] = ypr[1]; //  * 180. / PI; // PITCH
+    angles[2] = ypr[2]; // * 180. / PI; // ROLL
     /*
       Angles in the original code from Ben are in degree.
       He use YAW and ROLL from Eulre angels and YAW direct from GYRO???
