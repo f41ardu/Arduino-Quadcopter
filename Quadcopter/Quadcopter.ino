@@ -21,7 +21,7 @@
 #include "Configuration.h"
 
 // Release and Build
-char VersionNumber[] = "0.2";
+char VersionNumber[] = "0.2.1";
 char ReleaseNumber[] = "preRelease";
 char build[] = "build_930322";
 
@@ -30,8 +30,6 @@ PinClass heartbeat(HEARTBEAT_LED, 500, 500);
 
 // Angles
 float angles[3]; // [yaw, pitch, roll]   yaw/pitch/roll container and gravity vector
-float resulting_angles[3]; // [yaw, pitch, roll]   yaw/pitch/roll container and gravity vector
-float ypr_Offset[3];
 
 // RX Signals
 int throttle = THROTTLE_RMIN;
@@ -47,7 +45,7 @@ int m0, m1, m2, m3; // Front, Right, Back, Left
 
 // Helper
 unsigned long  lastUpdate;
-int currentMillis, previousMillis, waitTime = 2000;
+int currentMillis, previousMillis, waitTime = 20000;
 void setup()
 {
 #ifdef DEBUG_OUTPUT
@@ -61,27 +59,18 @@ void setup()
   pid_initialize();
   motors_arm();
   heartbeat.timechange(250, 100);
-  for (int i = 0; i < 3; i++) ypr_Offset[i] = 0.0;
   previousMillis = millis();
   while ((currentMillis - previousMillis) < waitTime) {
     mpu_update();
     heartbeat.flash();
     currentMillis = millis();
   }
- /*
-  for (int i = 0; i < 3; i++) {
-    ypr_Offset[i] = -1.*angles[i];
-  }
-  */
   heartbeat.timechange(500, 500);
 }
 void loop()
 {
   heartbeat.flash();
   mpu_update();
-  for (int i = 0; i < 3; i++) {
-    resulting_angles[i] = angles[i]; //  + ypr_Offset[i];
-  }
   control_update();
 #ifdef DEBUG_OUTPUT
   debug_process();

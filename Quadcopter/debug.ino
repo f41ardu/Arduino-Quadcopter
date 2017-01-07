@@ -79,11 +79,11 @@ void debug_process(){
 //  ypr[1] = ypr[1] * 180 / M_PI; // PITCH
 //  ypr[2] = ypr[2] * 180 / M_PI; // ROLL 
 
-  Serial.print((float)( resulting_angles[2])); //ROLL?
+  Serial.print((float)(angles[2])); //ROLL?
   Serial.print(',');
-  Serial.print((float)( resulting_angles[1])); //PITCH?
+  Serial.print((float)(angles[1])); //PITCH?
   Serial.print(',');
-  Serial.print((float)( resulting_angles[0])); //YAW? 
+  Serial.print((float)(angles[0])); //YAW? 
 #endif
 
   Serial.println();

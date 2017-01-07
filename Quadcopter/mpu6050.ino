@@ -102,8 +102,7 @@ void mpu_init() {
     Serial.println(F("Enabling DMP..."));
     mpu.setDMPEnabled(true);
     Serial.println(F("Enabling interrupt detection (Arduino external interrupt 0)..."));
-//    attachInterrupt(digitalPinToInterrupt(PIN_MPU), &dmpDataReady, RISING);
-     PCintPort::attachInterrupt(PIN_MPU, &dmpDataReady, RISING);
+    PCintPort::attachInterrupt(PIN_MPU, &dmpDataReady, RISING);
     mpuIntStatus = mpu.getIntStatus();
 
     // set our DMP Ready flag so the main loop() function knows it's okay to use it
@@ -172,46 +171,15 @@ void mpu_update() {
     qF[2]=q.y;
     qF[3]=q.z;
 //    quaternionToEuler(qF, ypr);
-    mpu.dmpGetEuler(ypr, &q);
-    /*
+//     mpu.dmpGetEuler(ypr, &q);
     // calculate YAWPITCHROLL
     mpu.dmpGetGravity(&gravity, &q);
     mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
-    */ 
-    // from Ben's IMU code
-    // print gyroscope values from fifoBuffer
-    // ypr[0] = ((fifoBuffer[24] << 8) + fifoBuffer[25]);
-    /*
-        Serial.print("ypr\t");
-        Serial.print(ypr[0] * 180 / M_PI);
-        Serial.print("\t");
-        Serial.print(ypr[1] * 180 / M_PI);
-        Serial.print("\t");
-        Serial.println(ypr[2] * 180 / M_PI);
-    */
     // YAW,PITCH,ROLL in degress
-    angles[0] = ypr[0]; //  * 180. / PI; // YAW
-    angles[1] = ypr[1]; //  * 180. / PI; // PITCH
-    angles[2] = ypr[2]; // * 180. / PI; // ROLL
-    /*
-      Angles in the original code from Ben are in degree.
-      He use YAW and ROLL from Eulre angels and YAW direct from GYRO???
-      What does that mean?
-      // Output Euler Angles
-      float euler_x = atan2((2 * q_y * q_z) - (2 * q_w * q_x), (2 * q_w * q_w) + (2 * q_z * q_z) - 1); // phi
-      float euler_y = -asin((2 * q_x * q_z) + (2 * q_w * q_y));                                        // theta
-      //  float euler_z = atan2((2 * q_x * q_y) - (2 * q_w * q_z), (2 * q_w * q_w) + (2 * q_x * q_x) - 1); // psi
-      euler_x = euler_x * 180/M_PI; // angle in degrees -180 to +180
-      euler_y = euler_y * 180/M_PI; // angle in degrees -180 to +180
-      //  euler_z = euler_z * 180/M_PI; // angle in degrees -180 to +180
-      volatile byte* Rol_Ptr = (byte*) &euler_x;
-      volatile byte* Pit_Ptr = (byte*) &euler_y;
-      //  volatile byte* Yaw_Ptr = (byte*) &euler_z;
-
-      // print gyroscope values from fifoBuffer
-      float GyroZ = ((fifoBuffer[24] << 8) + fifoBuffer[25]);
-      volatile byte* Yaw_Ptr = (byte*) &GyroZ;
-    */
+    angles[0] = ypr[0] * 180. / PI; // YAW
+    angles[1] = ypr[1] * 180. / PI; // PITCH
+    angles[2] = ypr[2] * 180. / PI; // ROLL
+  
 
   }
 }
